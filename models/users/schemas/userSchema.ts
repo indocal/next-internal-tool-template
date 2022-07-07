@@ -33,6 +33,7 @@ export function generateUserSchema(): zod.ZodSchema<User> {
       }),
 
       status: generateUserStatusSchema(),
+
       role: generateUserRoleSchema().nullable(),
 
       ...generateTrackingDatesSchema(),

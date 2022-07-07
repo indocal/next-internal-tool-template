@@ -10,7 +10,7 @@ export default withAuth({
       if (token.user.status === 'DISABLED') return false;
 
       // Change this line to specify the roles those are not allowed to access
-      return !['public', 'standard '].includes(token.user.role.type);
+      return ['administrator'].includes(token.user.role.type);
     },
   },
   pages: {

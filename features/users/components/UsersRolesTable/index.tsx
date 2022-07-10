@@ -111,7 +111,7 @@ export const UsersRolesTable: React.FC = () => {
           </Stack>
 
           <Stack sx={{ height: '100%' }}>
-            {roles.length ? (
+            {roles.length > 0 ? (
               <TableContainer>
                 <Table>
                   <TableHead>

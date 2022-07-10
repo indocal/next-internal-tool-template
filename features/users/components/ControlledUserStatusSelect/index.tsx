@@ -17,24 +17,24 @@ export const ControlledUserStatusSelect: React.FC<
 
   const status = useMemo<UserStatus[]>(() => ['ENABLED', 'DISABLED'], []);
 
-  return (
+  return session?.user.role &&
+    hasPermissions(
+      session.user.role,
+      ['userRole::create', 'userRole::update'],
+      { strategy: 'some' }
+    ) ? (
     <ControlledSelect {...props}>
-      {session?.user.role &&
-      hasPermissions(
-        session.user.role,
-        ['userRole::create', 'userRole::update'],
-        { strategy: 'some' }
-      ) ? (
-        status.map((status) => (
-          <MenuItem key={status} value={status}>
-            {translateUserStatus(status)}
-          </MenuItem>
-        ))
-      ) : (
-        <MenuItem disabled value={session?.user.status}>
-          {translateUserStatus(session?.user.status || 'DISABLED')}
+      {status.map((status) => (
+        <MenuItem key={status} value={status}>
+          {translateUserStatus(status)}
         </MenuItem>
-      )}
+      ))}
+    </ControlledSelect>
+  ) : (
+    <ControlledSelect selectProps={{ disabled: true }} {...props}>
+      <MenuItem value={session?.user.status}>
+        {translateUserStatus(session?.user.status || 'DISABLED')}
+      </MenuItem>
     </ControlledSelect>
   );
 };

@@ -2,6 +2,7 @@ export * from './context';
 export * from './components';
 export * from './hooks';
 export * from './utils';
+export * from './config';
 export * from './mails';
 export * from './errors';
 export * from './schemas';

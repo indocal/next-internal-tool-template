@@ -15,6 +15,8 @@ import { ExpandMore as ExpandMoreIcon } from '@mui/icons-material';
 import { Permissions } from '@/auth';
 import { UserRole } from '@/models';
 
+import { translateModel, translatePermissionAction } from '../../utils';
+
 export interface UserRolePermissionsManagamentPanelModelPermissionsProps {
   role: UserRole;
   model: string;
@@ -28,7 +30,7 @@ export const UserRolePermissionsManagamentPanelModelPermissions: React.FC<
     <Accordion key={model} defaultExpanded>
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
         <Typography color="text.secondary" sx={{ fontWeight: 'bold' }}>
-          {model}
+          {translateModel(model)}
         </Typography>
       </AccordionSummary>
 
@@ -62,12 +64,12 @@ export const UserRolePermissionsManagamentPanelModelPermissions: React.FC<
                   key={permission}
                   item
                   container
-                  justifyContent="center"
+                  justifyContent="flex-start"
                   alignItems="center"
                   xs
                 >
                   <FormControlLabel
-                    label={permission}
+                    label={translatePermissionAction(permission)}
                     control={<Checkbox checked={value} />}
                   />
                 </Grid>

@@ -165,7 +165,10 @@ export const UsersDataGrid: React.FC<UsersDataGridProps> = ({
 
           {onAddButtonClick &&
             session?.user.role &&
-            hasPermissions(session.user.role, 'user::create') && (
+            hasPermissions(session.user.role, [
+              'user::create',
+              'userRole::read',
+            ]) && (
               <IconButton size="small" onClick={onAddButtonClick}>
                 <AddIcon />
               </IconButton>

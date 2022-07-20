@@ -1,14 +1,9 @@
 import { useMemo, useCallback } from 'react';
 import useSWR from 'swr';
-import { AxiosError } from 'axios';
 import qs from 'qs';
 
 import { PermissionsByRole } from '@/auth';
-import {
-  checkAndReturnApiErrorResponse,
-  UnexpectedError,
-  ApiError,
-} from '@/utils';
+import { getError } from '@/utils';
 import { API_ENDPOINTS } from '@/config';
 import { UserRole } from '@/models';
 
@@ -36,27 +31,6 @@ export function useUserRolePermissionsByRole(
     `${API_ENDPOINTS.PERMISSIONS}?${query}`
   );
 
-  const parsedError = useMemo<Error | null>(() => {
-    if (error) {
-      if (error instanceof AxiosError) {
-        const response = checkAndReturnApiErrorResponse(error.response?.data);
-
-        return response
-          ? new ApiError({
-              status: response.error.status,
-              message: response.error.message,
-              code: response.error.code,
-              options: { cause: error },
-            })
-          : error;
-      }
-
-      return error instanceof Error ? error : new UnexpectedError();
-    }
-
-    return null;
-  }, [error]);
-
   const handleRefetch = useCallback(async () => {
     await mutate();
   }, [mutate]);
@@ -66,7 +40,7 @@ export function useUserRolePermissionsByRole(
     validating: isValidating,
     role: data?.role ?? null,
     permissions: data?.permissions ?? null,
-    error: parsedError,
+    error: error ? getError(error) : null,
     refetch: handleRefetch,
   };
 }

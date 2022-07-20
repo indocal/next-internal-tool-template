@@ -1,12 +1,8 @@
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import { StatusCodes, ReasonPhrases } from 'http-status-codes';
 import qs from 'qs';
 
-import {
-  checkAndReturnApiErrorResponse,
-  ApiError,
-  UnexpectedError,
-} from '@/utils';
+import { getError, ApiError } from '@/utils';
 import { API_ENDPOINTS } from '@/config';
 
 import {
@@ -56,25 +52,9 @@ export async function checkPermissions(
       });
     }
   } catch (error) {
-    if (error instanceof AxiosError) {
-      const response = checkAndReturnApiErrorResponse(error.response?.data);
-
-      return {
-        hasPermissions: false,
-        error: response
-          ? new ApiError({
-              status: response.error.status,
-              message: response.error.message,
-              code: response.error.code,
-              options: { cause: error },
-            })
-          : error,
-      };
-    }
-
     return {
       hasPermissions: false,
-      error: error instanceof Error ? error : new UnexpectedError(),
+      error: getError(error),
     };
   }
 }

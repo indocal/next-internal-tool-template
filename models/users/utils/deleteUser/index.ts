@@ -1,10 +1,6 @@
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 
-import {
-  checkAndReturnApiErrorResponse,
-  UnexpectedError,
-  ApiError,
-} from '@/utils';
+import { getError } from '@/utils';
 import { API_ENDPOINTS } from '@/config';
 import { UUID } from '@/models';
 
@@ -24,25 +20,9 @@ export async function deleteUser(id: UUID): Promise<DeleteUserReturn> {
       error: null,
     };
   } catch (error) {
-    if (error instanceof AxiosError) {
-      const response = checkAndReturnApiErrorResponse(error.response?.data);
-
-      return {
-        user: null,
-        error: response
-          ? new ApiError({
-              status: response.error.status,
-              message: response.error.message,
-              code: response.error.code,
-              options: { cause: error },
-            })
-          : error,
-      };
-    }
-
     return {
       user: null,
-      error: error instanceof Error ? error : new UnexpectedError(),
+      error: getError(error),
     };
   }
 }

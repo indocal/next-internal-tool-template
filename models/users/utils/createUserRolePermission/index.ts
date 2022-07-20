@@ -1,9 +1,6 @@
-import axios, { AxiosResponse, AxiosError } from 'axios';
-import {
-  checkAndReturnApiErrorResponse,
-  UnexpectedError,
-  ApiError,
-} from '@/utils';
+import axios, { AxiosResponse } from 'axios';
+
+import { getError } from '@/utils';
 import { API_ENDPOINTS } from '@/config';
 
 import { UserRolePermission, CreateUserRolePermissionDto } from '../../types';
@@ -28,25 +25,9 @@ export async function createUserRolePermission(
       error: null,
     };
   } catch (error) {
-    if (error instanceof AxiosError) {
-      const response = checkAndReturnApiErrorResponse(error.response?.data);
-
-      return {
-        permission: null,
-        error: response
-          ? new ApiError({
-              status: response.error.status,
-              message: response.error.message,
-              code: response.error.code,
-              options: { cause: error },
-            })
-          : error,
-      };
-    }
-
     return {
       permission: null,
-      error: error instanceof Error ? error : new UnexpectedError(),
+      error: getError(error),
     };
   }
 }

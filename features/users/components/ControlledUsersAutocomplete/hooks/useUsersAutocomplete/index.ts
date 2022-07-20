@@ -1,12 +1,7 @@
-import { useMemo, useCallback } from 'react';
+import { useCallback } from 'react';
 import useSWR from 'swr';
-import { AxiosError } from 'axios';
 
-import {
-  checkAndReturnApiErrorResponse,
-  UnexpectedError,
-  ApiError,
-} from '@/utils';
+import { getError } from '@/utils';
 import { API_ENDPOINTS } from '@/config';
 import { User } from '@/models';
 
@@ -23,27 +18,6 @@ export function useUsersAutocomplete(): UsersAutocompleteHookReturn {
     API_ENDPOINTS.USERS
   );
 
-  const parsedError = useMemo<Error | null>(() => {
-    if (error) {
-      if (error instanceof AxiosError) {
-        const response = checkAndReturnApiErrorResponse(error.response?.data);
-
-        return response
-          ? new ApiError({
-              status: response.error.status,
-              message: response.error.message,
-              code: response.error.code,
-              options: { cause: error },
-            })
-          : error;
-      }
-
-      return error instanceof Error ? error : new UnexpectedError();
-    }
-
-    return null;
-  }, [error]);
-
   const handleRefetch = useCallback(async () => {
     await mutate();
   }, [mutate]);
@@ -52,7 +26,7 @@ export function useUsersAutocomplete(): UsersAutocompleteHookReturn {
     loading: typeof data === 'undefined' && !error,
     validating: isValidating,
     users: data ?? [],
-    error: parsedError,
+    error: error ? getError(error) : null,
     refetch: handleRefetch,
   };
 }

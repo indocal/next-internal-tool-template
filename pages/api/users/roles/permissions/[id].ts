@@ -34,19 +34,20 @@ const handler: NextApiHandler<UserRolePermission | null> = async (
     }
 
     case 'PUT': {
-      const validator =
-        generateUpdateUserRolePermissionDtoSchema().safeParse(body);
+      const schema = generateUpdateUserRolePermissionDtoSchema();
 
-      if (validator.success) {
+      const result = schema.safeParse(body);
+
+      if (result.success) {
         const permission = await prisma.userRolePermission.update({
           where: {
             id: query.id as UUID,
           },
           data: {
-            action: validator.data.action,
+            action: result.data.action,
             role: {
               connect: {
-                id: validator.data.role,
+                id: result.data.role,
               },
             },
           },

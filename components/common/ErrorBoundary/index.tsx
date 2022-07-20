@@ -7,8 +7,6 @@ import {
   CircularProgress,
 } from '@mui/material';
 
-import { WIDGET_SIZES } from '@/components';
-
 interface ErrorBoundaryState {
   loading: boolean;
   hasError: boolean;
@@ -46,16 +44,17 @@ export class ErrorBoundary extends Component<
     return { hasError: true };
   }
 
-  componentDidCatch(error: unknown, errorInfo: unknown): void {
-    if (this.props.logger) this.props.logger({ error, errorInfo });
+  async componentDidCatch(error: unknown, errorInfo: unknown): Promise<void> {
+    if (this.props.logger) await this.props.logger({ error, errorInfo });
 
     this.setState((prevState) => ({ errorCount: prevState.errorCount + 1 }));
   }
 
-  handleTryAgain(): void {
+  async handleTryAgain(): Promise<void> {
     this.setState({ loading: true });
 
-    this.props.onTryAgain && this.props.onTryAgain(this.state.errorCount);
+    if (this.props.onTryAgain)
+      await this.props.onTryAgain(this.state.errorCount);
 
     setTimeout(() => this.setState({ loading: false, hasError: false }), 2000);
   }
@@ -69,14 +68,14 @@ export class ErrorBoundary extends Component<
           invisible
           sx={{
             position: this.props.fullscreen ? 'fixed' : 'relative',
+            top: (theme) => (this.props.fullscreen ? theme.spacing(-4) : 0),
+            left: (theme) => (this.props.fullscreen ? theme.spacing(-4) : 0),
             display: 'grid',
             placeContent: 'center',
             placeItems: 'center',
             gap: (theme) => theme.spacing(1),
-            width: '100%',
-            height: '100%',
-            minWidth: WIDGET_SIZES.HEIGHT,
-            minHeight: WIDGET_SIZES.HEIGHT,
+            width: this.props.fullscreen ? '100vw' : '100%',
+            height: this.props.fullscreen ? '100vh' : '100%',
             padding: (theme) => theme.spacing(4),
             overflow: 'auto',
           }}

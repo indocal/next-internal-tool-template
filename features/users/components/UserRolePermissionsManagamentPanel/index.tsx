@@ -30,7 +30,7 @@ const UserRolePermissionsManagamentPanel: React.FC<
   const { save } = useUserRolePermissionsManagamentPanel();
 
   return (
-    <Paper sx={{ display: 'grid', minHeight: 250 }}>
+    <Paper sx={{ display: 'grid' }}>
       {loading ? (
         <Loader invisible message="Cargando permisos..." />
       ) : error ? (

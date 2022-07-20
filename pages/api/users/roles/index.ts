@@ -37,14 +37,16 @@ const handler: NextApiHandler<UserRole | UserRole[]> = async (
     }
 
     case 'POST': {
-      const validator = generateCreateUserRoleDtoSchema().safeParse(body);
+      const schema = generateCreateUserRoleDtoSchema();
 
-      if (validator.success) {
+      const result = schema.safeParse(body);
+
+      if (result.success) {
         const role = await prisma.userRole.create({
           data: {
-            type: validator.data.type,
-            name: validator.data.name,
-            description: validator.data.description,
+            type: result.data.type,
+            name: result.data.name,
+            description: result.data.description,
           },
           select: {
             id: true,

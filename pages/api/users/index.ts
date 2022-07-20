@@ -33,19 +33,21 @@ const handler: NextApiHandler<User | User[]> = async (
     }
 
     case 'POST': {
-      const validator = generateCreateUserDtoSchema().safeParse(body);
+      const schema = generateCreateUserDtoSchema();
 
-      if (validator.success) {
+      const result = schema.safeParse(body);
+
+      if (result.success) {
         const user = await prisma.user.create({
           data: {
-            username: validator.data.username,
-            email: validator.data.email,
-            fullName: validator.data.fullName,
-            password: validator.data.password,
-            status: validator.data.status,
+            username: result.data.username,
+            email: result.data.email,
+            fullName: result.data.fullName,
+            password: result.data.password,
+            status: result.data.status,
             role: {
               connect: {
-                id: validator.data.role,
+                id: result.data.role,
               },
             },
           },

@@ -6,7 +6,6 @@ export type UpdateUserDto = Partial<{
   username: string;
   email: string;
   fullName: string;
-
   status: DBUserStatusEnum;
   role: UUID;
 }>;

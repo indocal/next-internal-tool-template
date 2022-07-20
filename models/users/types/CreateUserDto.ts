@@ -7,7 +7,6 @@ export type CreateUserDto = {
   email: string;
   fullName: string;
   password: string;
-
   status: DBUserStatusEnum;
   role: UUID;
 };

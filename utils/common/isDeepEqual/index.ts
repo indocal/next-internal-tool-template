@@ -14,10 +14,10 @@ export function isDeepEqual(object: unknown, target: unknown): boolean {
       const areObjects =
         isObject(objectValueAtKey) && isObject(targetValueAtKey);
 
-      if (
-        (areObjects && !isDeepEqual(objectValueAtKey, targetValueAtKey)) ||
-        (!areObjects && !Object.is(objectValueAtKey, targetValueAtKey))
-      )
+      if (!areObjects && !Object.is(objectValueAtKey, targetValueAtKey))
+        return false;
+
+      if (areObjects && !isDeepEqual(objectValueAtKey, targetValueAtKey))
         return false;
     }
 

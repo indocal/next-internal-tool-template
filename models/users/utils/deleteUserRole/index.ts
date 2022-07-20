@@ -17,7 +17,9 @@ export interface DeleteUserRoleReturn {
 
 export async function deleteUserRole(id: UUID): Promise<DeleteUserRoleReturn> {
   try {
-    const response = await axios.delete(`${API_ENDPOINTS.USERS_ROLES}/${id}`);
+    const response = await axios.delete<UserRole>(
+      `${API_ENDPOINTS.USERS_ROLES}/${id}`
+    );
 
     return {
       role: response.data,

@@ -38,17 +38,17 @@ export function createApiErrorResponse(error: unknown): ApiErrorResponse {
 export function checkAndReturnApiErrorResponse(
   response: unknown
 ): ApiErrorResponse | null {
-  const validator = zod
-    .object({
-      error: zod.object({
-        status: zod.number(),
-        message: zod.string(),
-        code: zod.number().or(zod.string()).optional(),
-      }),
-    })
-    .safeParse(response);
+  const schema = zod.object({
+    error: zod.object({
+      status: zod.number(),
+      message: zod.string(),
+      code: zod.number().or(zod.string()).optional(),
+    }),
+  });
 
-  return validator.success ? validator.data : null;
+  const result = schema.safeParse(response);
+
+  return result.success ? result.data : null;
 }
 
 export default createApiErrorResponse;

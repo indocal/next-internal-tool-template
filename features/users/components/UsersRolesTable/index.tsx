@@ -68,7 +68,7 @@ export const UsersRolesTable: React.FC = () => {
   );
 
   return (
-    <Paper sx={{ display: 'grid', minHeight: 300 }}>
+    <Paper sx={{ display: 'grid' }}>
       {loading ? (
         <Loader invisible message="Cargando roles..." />
       ) : error ? (

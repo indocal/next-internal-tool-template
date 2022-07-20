@@ -24,7 +24,7 @@ const UsersPage: EnhancedNextPage = () => {
       <Container fixed sx={{ paddingY: (theme) => theme.spacing(2) }}>
         <Grid container spacing={1}>
           {session?.user.role &&
-            hasPermissions(session.user.role, 'userRole::read') && (
+            hasPermissions(session.user.role, 'userRole::update') && (
               <Grid item xs={12}>
                 <Alert
                   severity="info"

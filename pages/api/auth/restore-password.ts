@@ -12,12 +12,14 @@ import { withErrorHandler, ApiError } from '@/utils';
 const handler: NextApiHandler = async ({ method, body }, res) => {
   switch (method) {
     case 'POST': {
-      const validator = generateRestorePasswordDataSchema().safeParse(body);
+      const schema = generateRestorePasswordDataSchema();
 
-      if (validator.success) {
+      const result = schema.safeParse(body);
+
+      if (result.success) {
         const user = await prisma.user.findUnique({
           where: {
-            email: validator.data.email,
+            email: result.data.email,
           },
         });
 

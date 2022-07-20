@@ -21,8 +21,8 @@ export const withCheckPermissions =
         return await target(req, res);
       } else {
         throw new ApiError({
-          status: StatusCodes.UNAUTHORIZED,
-          message: ReasonPhrases.UNAUTHORIZED,
+          status: StatusCodes.FORBIDDEN,
+          message: ReasonPhrases.FORBIDDEN,
         });
       }
     } else {

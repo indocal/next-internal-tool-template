@@ -19,7 +19,7 @@ export async function deleteUserRolePermission(
   id: UUID
 ): Promise<DeleteUserRolePermissionReturn> {
   try {
-    const response = await axios.delete(
+    const response = await axios.delete<UserRolePermission>(
       `${API_ENDPOINTS.USERS_ROLES_PERMISSIONS}/${id}`
     );
 

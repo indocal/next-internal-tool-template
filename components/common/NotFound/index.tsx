@@ -54,11 +54,7 @@ export const NotFound: React.FC<NotFoundProps> = ({
         </Typography>
       </Stack>
 
-      <Box
-        sx={{
-          maxWidth: (theme) => theme.spacing(22.5),
-        }}
-      >
+      <Box sx={{ maxWidth: (theme) => theme.spacing(22.5) }}>
         <Image priority alt={caption} src={notFoundImage} />
       </Box>
 

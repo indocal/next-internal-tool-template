@@ -20,11 +20,7 @@ export const ErrorInfo: React.FC<ErrorInfoProps> = ({ error }) => (
       overflow: 'auto',
     }}
   >
-    <Box
-      sx={{
-        maxWidth: (theme) => theme.spacing(10),
-      }}
-    >
+    <Box sx={{ maxWidth: (theme) => theme.spacing(10) }}>
       <Image priority alt={error.message} src={warning} />
     </Box>
 

@@ -10,7 +10,7 @@ import { esES as coreEsES } from '@mui/material/locale';
 import { esES as dataGridEsEs } from '@mui/x-data-grid/locales';
 import {
   LocalizationProvider,
-  enUS as datePickersEnUS,
+  esES as datePickersEsES,
 } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import dateFnsEs from 'date-fns/locale/es';
@@ -48,7 +48,7 @@ const ThemeProvider: React.FC<React.PropsWithChildren<unknown>> = ({
           },
         },
         dataGridEsEs,
-        datePickersEnUS,
+        datePickersEsES,
         coreEsES
       ),
     [prefersDarkMode, colorMode, primaryColor, secondaryColor]

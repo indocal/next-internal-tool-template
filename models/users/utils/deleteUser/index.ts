@@ -17,7 +17,7 @@ export interface DeleteUserReturn {
 
 export async function deleteUser(id: UUID): Promise<DeleteUserReturn> {
   try {
-    const response = await axios.delete(`${API_ENDPOINTS.USERS}/${id}`);
+    const response = await axios.delete<User>(`${API_ENDPOINTS.USERS}/${id}`);
 
     return {
       user: response.data,

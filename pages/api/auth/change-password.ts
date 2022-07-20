@@ -9,9 +9,11 @@ import { withErrorHandler, ApiError } from '@/utils';
 const handler: NextApiHandler = async (req, res) => {
   switch (req.method) {
     case 'PUT': {
-      const validator = generateChangePasswordDataSchema().safeParse(req.body);
+      const schema = generateChangePasswordDataSchema();
 
-      if (validator.success) {
+      const result = schema.safeParse(req.body);
+
+      if (result.success) {
         const session = await getSession({ req });
 
         const user = await prisma.user.findUnique({
@@ -21,13 +23,13 @@ const handler: NextApiHandler = async (req, res) => {
         });
 
         if (user) {
-          if (user.password === validator.data.currentPassword) {
+          if (user.password === result.data.currentPassword) {
             await prisma.user.update({
               where: {
                 id: user.id,
               },
               data: {
-                password: validator.data.newPassword,
+                password: result.data.newPassword,
               },
             });
 

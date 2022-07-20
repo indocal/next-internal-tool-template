@@ -20,11 +20,7 @@ export const NoData: React.FC<NoDataProps> = ({ message }) => (
       overflow: 'auto',
     }}
   >
-    <Box
-      sx={{
-        maxWidth: (theme) => theme.spacing(10),
-      }}
-    >
+    <Box sx={{ maxWidth: (theme) => theme.spacing(10) }}>
       <Image priority alt={message} src={notData} />
     </Box>
 

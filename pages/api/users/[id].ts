@@ -33,21 +33,23 @@ const handler: NextApiHandler<User | null> = async (
     }
 
     case 'PUT': {
-      const validator = generateUpdateUserDtoSchema().safeParse(body);
+      const schema = generateUpdateUserDtoSchema();
 
-      if (validator.success) {
+      const result = schema.safeParse(body);
+
+      if (result.success) {
         const user = await prisma.user.update({
           where: {
             id: query.id as UUID,
           },
           data: {
-            username: validator.data.username,
-            email: validator.data.email,
-            fullName: validator.data.fullName,
-            status: validator.data.status,
+            username: result.data.username,
+            email: result.data.email,
+            fullName: result.data.fullName,
+            status: result.data.status,
             role: {
               connect: {
-                id: validator.data.role,
+                id: result.data.role,
               },
             },
           },
